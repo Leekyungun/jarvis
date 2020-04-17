@@ -3,6 +3,7 @@ venv
 
 # IDE
 .idea
+*/__pycache__/*
 
 # project
 config/config.py
