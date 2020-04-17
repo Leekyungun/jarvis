@@ -70,7 +70,7 @@ class Monitor(object):
         assert type(input_data) != list()
 
         print('\x1b[33m[Check Process]\x1b[0m')
-        for process in process_list:
+        for process in input_data:
             self.exist_process(process)
 
     def close(self):
@@ -80,7 +80,7 @@ class Monitor(object):
 if __name__ == '__main__':
     from config.config import Config
 
-    super_computer = Monitor(name='super_computer2', connect_info=Config.super_computer2)
+    super_computer = Monitor(connect_info=Config.super_computer2)
     super_computer.info()
 
     process_list = ['socket_client_well', 'redis']
