@@ -8,14 +8,14 @@ class Monitor(object):
         self.ssh = SshClient(connect_info)
 
     def info(self):
-        print(f'\x1b[35m[{self.name}]\x1b[0m')
-        print('\x1b[33m[CPU INFO]\x1b[0m')
+        utils.color_print('blue', self.name)
+        utils.color_print('yellow', '[CPU Process]')
         self.cpu_info()
         print()
-        print('\x1b[33m[MEMORY INFO]\x1b[0m')
+        utils.color_print('yellow', '[MEMORY Process]')
         self.memory_info()
         print()
-        print('\x1b[33m[DISK INFO]\x1b[0m')
+        utils.color_print('yellow', '[DISK Process]')
         self.disk_info()
         print()
         self.close()
@@ -62,14 +62,14 @@ class Monitor(object):
         process = self.is_exist_process(input_data)
 
         if process:
-            print(f'\x1b[32m{input_data}\x1b[0m')
+            utils.color_print('green', input_data)
         else:
-            print(f'\x1b[31m{input_data}\x1b[0m')
+            utils.color_print('red', input_data)
 
     def check_process(self, input_data):
         assert type(input_data) != list()
 
-        print('\x1b[33m[Check Process]\x1b[0m')
+        utils.color_print('yellow', '[Check Process]')
         for process in input_data:
             self.exist_process(process)
 
