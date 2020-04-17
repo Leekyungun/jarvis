@@ -8,15 +8,23 @@ class SshClient(object):
         self.cli.set_missing_host_key_policy(paramiko.AutoAddPolicy)
 
     def _connect(self):
-        self.cli.connect(**self.connect_info)
+        if 'password' in self.connect_info:
+            self.cli.connect(hostname=self.connect_info['hostname'],
+                             username=self.connect_info['username'],
+                             password=self.connect_info['password'])
+        else:
+            private_key = paramiko.RSAKey.from_private_key_file(self.connect_info['private_key_file'])
+            self.cli.connect(hostname=self.connect_info['hostname'],
+                             username=self.connect_info['username'],
+                             pkey=private_key)
 
     def _inspect(self):
         if self.cli.get_transport() is None:
             self._connect()
 
-    def command(self, input):
+    def command(self, input_data):
         self._inspect()
-        stdin, stdout, stderr = self.cli.exec_command(input)
+        stdin, stdout, stderr = self.cli.exec_command(input_data)
         lines = stdout.readlines()
         # for line in lines:
         #     print(line)
@@ -41,3 +49,12 @@ class SshClient(object):
 
     def close(self):
         self.cli.close()
+
+
+if __name__ == '__main__':
+    from config.config import Config
+
+    ssh = SshClient(Config.holdem_prod)
+    result = ssh.get_commands('ls -al')
+    for line in result:
+        print(line)

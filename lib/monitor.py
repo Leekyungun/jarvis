@@ -3,8 +3,8 @@ from lib import utils
 
 
 class Monitor(object):
-    def __init__(self, name, connect_info):
-        self.name = name
+    def __init__(self, connect_info):
+        self.name = connect_info['name']
         self.ssh = SshClient(connect_info)
 
     def info(self):
@@ -18,6 +18,7 @@ class Monitor(object):
         print('\x1b[33m[DISK INFO]\x1b[0m')
         self.disk_info()
         print()
+        self.close()
 
     def cpu_info(self):
         total_cpu_count = self.ssh.get_command('grep -c processor /proc/cpuinfo')
@@ -84,4 +85,3 @@ if __name__ == '__main__':
 
     process_list = ['socket_client_well', 'redis']
     super_computer.check_process(process_list)
-
