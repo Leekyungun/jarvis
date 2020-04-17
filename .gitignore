@@ -1,0 +1,8 @@
+# python
+venv
+
+# IDE
+.idea
+
+# project
+config/config.py
