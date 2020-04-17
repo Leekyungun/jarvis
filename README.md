@@ -5,3 +5,6 @@
 서버 접속 정보 입력
 1. pip install > requirement.txt
 1. python main.py
+
+## 참고
+- [commit message rule](doc/commit_message_rule.md)
