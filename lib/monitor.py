@@ -11,5 +11,18 @@ class Monitor(object):
         load_avg = load_avg_.split(' ')
         print(f'load_avg[{total_cpu_count}] {load_avg[0]} {load_avg[1]} {load_avg[2]}')
 
+    def disk_info(self):
+        result = self.ssh.get_commands('df -h')
+        for line in result:
+            print(line)
+
     def close(self):
         self.ssh.close()
+
+
+if __name__ == '__main__':
+    from config.config import Config
+    super_computer = Monitor(Config.super_computer)
+    super_computer.cpu_info()
+    super_computer.disk_info()
+

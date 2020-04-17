@@ -18,14 +18,26 @@ class SshClient(object):
         self._inspect()
         stdin, stdout, stderr = self.cli.exec_command(input)
         lines = stdout.readlines()
-        for line in lines:
-            print(line)
-        # print(''.join(lines))
+        # for line in lines:
+        #     print(line)
+        print(''.join(lines))
 
     def get_command(self, input_command):
         self._inspect()
         stdin, stdout, stderr = self.cli.exec_command(input_command)
         return stdout.readline().rstrip('\n')
+
+    def get_commands(self, input_command):
+        self._inspect()
+
+        stdin, stdout, stderr = self.cli.exec_command(input_command)
+        lines = stdout.readlines()
+
+        results = list()
+        for line in lines:
+            results.append(line.rstrip('\n'))
+
+        return results
 
     def close(self):
         self.cli.close()
