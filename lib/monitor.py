@@ -8,7 +8,10 @@ class Monitor(object):
         self.ssh = SshClient(connect_info)
 
     def info(self):
-        utils.color_print('blue', self.name)
+        utils.color_print('blue', '\n' + '=' * (len(self.name) + 2))
+        utils.color_print('blue', f'|{self.name}|')
+        utils.color_print('blue', '=' * (len(self.name) + 2))
+
         utils.color_print('yellow', '[CPU Process]')
         self.cpu_info()
         print()
@@ -72,6 +75,19 @@ class Monitor(object):
         utils.color_print('yellow', '[Check Process]')
         for process in input_data:
             self.exist_process(process)
+
+    def delete_log_files(self, directory, expire_date):
+        assert type(directory) != str()
+        assert type(expire_date) != int()
+
+        if directory == '/':
+            return 'Please specify a detailed location.'
+
+        self.disk_info()
+        delete_file_count = self.ssh.get_command(f'find {directory} -name "*.log" -mtime +{expire_date} | wc -l')
+        self.ssh.command(f'find {directory} -name "*.log" -mtime +{expire_date} -exec rm -f {{}} \\;')
+        utils.color_print('yellow', f'deleted file count : {delete_file_count}')
+        self.disk_info()
 
     def close(self):
         self.ssh.close()
