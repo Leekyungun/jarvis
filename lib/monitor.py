@@ -66,8 +66,10 @@ class Monitor(object):
 
         if process:
             utils.color_print('green', input_data)
+            return True
         else:
             utils.color_print('red', input_data)
+            return False
 
     def check_process(self, input_data):
         assert type(input_data) != list()
