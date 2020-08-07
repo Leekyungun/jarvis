@@ -65,7 +65,7 @@ class Monitor(object):
         process = self.is_exist_process(input_data)
 
         if process:
-            utils.color_print('green', input_data)
+            utils.color_print('green', f'[{self.name}]{input_data}')
             return True
         else:
             utils.color_print('red', input_data)
